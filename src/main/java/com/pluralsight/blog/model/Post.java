@@ -18,18 +18,21 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Column(length=1000000)
+    @Column(length = 1000000)
     @Lob
     private String body;
     @Temporal(TemporalType.DATE)
     @CreationTimestamp
     private Date date;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Author author;
+
     public Post() {
         super();
     }
 
-    public Post(String title, String body){//, Author author) {
+    public Post(String title, String body) {//, Author author) {
         this();
         this.title = title;
         this.body = body;
@@ -72,12 +75,20 @@ public class Post {
         this.date = date;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Post))
             return false;
-        Post otherPost = (Post)obj;
+        Post otherPost = (Post) obj;
         return this.title.equals(otherPost.getTitle()) &&
-               this.body.equals(otherPost.getBody());
+                this.body.equals(otherPost.getBody());
     }
 }

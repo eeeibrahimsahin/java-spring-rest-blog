@@ -18,11 +18,16 @@ public class Author {
     private Long id;
     private String firstname;
     private String lastname;
+    @JsonIgnore
     private String username;
+    @JsonIgnore
     private String password;
+    @OneToMany
+    private List<Post> posts;
 
     public Author() {
         super();
+        this.posts = new ArrayList<>();
     }
 
     public Author(String username, String firstname, String lastname, String password) {
@@ -34,7 +39,7 @@ public class Author {
     }
 
     public void setPassword(String password) {
-         this.password = PASSWORD_ENCODER.encode(password);
+        this.password = PASSWORD_ENCODER.encode(password);
     }
 
     public Long getId() {
@@ -71,24 +76,27 @@ public class Author {
 
     @Override
     public boolean equals(Object obj) {
-        Author inputAuthor = (Author)obj;
+        Author inputAuthor = (Author) obj;
         if (!this.firstname.equals(inputAuthor.getFirstName())) {
             System.out.println("firstname not equal");
-            return false;}
+            return false;
+        }
         if (!this.lastname.equals(inputAuthor.getLastname())) {
             System.out.println("lastname not equal");
-            return false;}
+            return false;
+        }
         if (!this.username.equals(inputAuthor.getUsername())) {
             System.out.println("username not equal");
-            return false;}
+            return false;
+        }
         return true;
     }
 
     public List<Post> getPosts() {
-        return null;
+        return this.posts;
     }
 
     public void addPost(Post post) {
-        return;
+        this.posts.add(post);
     }
 }
